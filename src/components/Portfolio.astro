@@ -1,0 +1,69 @@
+---
+const projects = [
+  {
+    title: "Neon Analytics",
+    category: "SaaS Dashboard",
+    // Placeholder image - replace with your actual project screenshots
+    image: "https://placehold.co/600x400/2a2a2a/FFF?text=Analytics+Dashboard",
+    description: "Real-time data visualization platform with a retro-futuristic interface.",
+    tags: ["React", "D3.js", "Tailwind"]
+  },
+  {
+    title: "Orbit Commerce",
+    category: "E-Commerce",
+    image: "https://placehold.co/600x400/2a2a2a/FFF?text=Orbit+Commerce",
+    description: "Headless Shopify storefront built for extreme performance and SEO.",
+    tags: ["Astro", "Shopify", "Stripe"]
+  },
+  {
+    title: "Hyperion Health",
+    category: "Mobile App",
+    image: "https://placehold.co/600x400/2a2a2a/FFF?text=Mobile+App",
+    description: "Cross-platform patient management app with secure biometric login.",
+    tags: ["React Native", "Firebase", "TypeScript"]
+  }
+];
+---
+
+<section id="portfolio" class="section-block section-with-bg reveal-section">
+  <div class="section-inner">
+    <div class="text-center max-w-3xl mx-auto mb-16 reveal-item">
+      <h2 class="text-4xl font-bold mb-6 text-primary">Selected Works</h2>
+      <p class="text-lg opacity-80">
+        Digital products that combine aesthetic excellence with engineering rigor.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {projects.map((project, index) => (
+        <div 
+          class="card bg-base-100 shadow-xl border border-base-300 reveal-item group cursor-pointer hover:-translate-y-1 transition-transform duration-300"
+          style={`transition-delay: ${index * 100}ms`}
+        >
+          <figure class="aspect-video overflow-hidden relative border-b border-base-200">
+            <img 
+              src={project.image} 
+              alt={project.title} 
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+          </figure>
+          <div class="card-body">
+            <div class="flex justify-between items-start">
+              <div>
+                <h3 class="card-title text-lg">{project.title}</h3>
+                <span class="text-xs uppercase tracking-wider opacity-60">{project.category}</span>
+              </div>
+            </div>
+            <p class="text-sm opacity-80 mt-2">{project.description}</p>
+            <div class="card-actions justify-start mt-4">
+              {project.tags.map(tag => (
+                <div class="badge badge-ghost badge-sm text-xs">{tag}</div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

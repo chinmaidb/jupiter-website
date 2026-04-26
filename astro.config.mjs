@@ -1,3 +1,4 @@
+import db from "@astrojs/db";
 import netlify from "@astrojs/netlify";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
@@ -6,6 +7,7 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://shreshtasmg.in",
   output: "server",
+
   vite: {
     plugins: [tailwindcss()],
   },
@@ -13,4 +15,6 @@ export default defineConfig({
   adapter: netlify({
     edgeMiddleware: true,
   }),
+
+  integrations: [db()],
 });

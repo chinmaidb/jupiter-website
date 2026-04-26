@@ -1,26 +1,38 @@
 ---
 import About from "../components/About.astro";
 import ContactUs from "../components/ContactUs.astro";
+import FAQ from "../components/FAQ.astro";
 import Footer from "../components/Footer.astro";
 import Hero from "../components/Hero.astro";
 import Navbar from "../components/Navbar.astro";
+import Portfolio from "../components/Portfolio.astro";
 import Services from "../components/Services.astro";
 import Team from "../components/Team.astro";
+import Testimonials from "../components/Testimonials.astro";
 import WhyWorkWithUs from "../components/WhyWorkWithUs.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout>
+<Layout
+  title="Shreshta SMG | Full-Stack Software Developer"
+  description="Software Developer creating modern, responsive, and scalable digital experiences—from elegant UI designs to powerful full-stack applications."
+>
   <Navbar />
   <Hero />
   <div class="section-divider"></div>
   <Services />
+  <div class="section-divider"></div>
+  <Portfolio />
   <div class="section-divider"></div>
   <WhyWorkWithUs />
   <div class="section-divider"></div>
   <About />
   <div class="section-divider"></div>
   <Team />
+  <div class="section-divider"></div>
+  <Testimonials />
+  <div class="section-divider"></div>
+  <FAQ />
   <div class="section-divider"></div>
   <ContactUs />
   <Footer />
@@ -37,7 +49,7 @@ import Layout from "../layouts/Layout.astro";
         },
         {
           threshold: 0.15,
-        }
+        },
       );
 
       document

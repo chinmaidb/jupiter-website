@@ -1,8 +1,7 @@
 import { defineAction } from "astro:actions";
+import { ContactUs, db } from "astro:db";
 import { z } from "astro/zod";
-import PocketBase from "pocketbase";
 
-let pb: PocketBase;
 
 export const sendContact = defineAction({
   accept: "json",
@@ -14,15 +13,6 @@ export const sendContact = defineAction({
     recaptchaToken: z.string(),
   }),
   handler: async (input) => {
-    if (!pb) {
-      const url = import.meta.env.CONTACT_US_URL;
-      if (!url) {
-        throw new Error(
-          "CONTACT_US_URL is not defined in environment variables",
-        );
-      }
-      pb = new PocketBase(import.meta.env.CONTACT_US_URL);
-    }
     const { name, email, projectType, message, recaptchaToken } = input;
     if (!recaptchaToken) {
       return new Response("reCAPTCHA token missing", { status: 400 });
@@ -77,7 +67,7 @@ export const sendContact = defineAction({
       projectDetails: message,
     };
 
-    const record = await pb.collection("contactus_forms").create(contactUsData);
+    const [record] = await db.insert(ContactUs).values(contactUsData).returning();
     return {
       message: "Submitted successfully",
       emailId: record.id,

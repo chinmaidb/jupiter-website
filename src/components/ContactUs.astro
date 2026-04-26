@@ -210,7 +210,7 @@ const projectType = [
     </div>
 </section>
 
-<script define:vars={{ RECAPTCHA_SITE_KEY }}>
+<script is:inline define:vars={{ RECAPTCHA_SITE_KEY }}>
     window.RECAPTCHA_SITE_KEY = RECAPTCHA_SITE_KEY;
 </script>
 
@@ -248,7 +248,7 @@ const projectType = [
                 });
 
                 const formData = new FormData(form);
-                const { data, error } = await actions.contactUs({
+                const { error } = await actions.contactUs({
                     name: formData.get("name") as string,
                     email: formData.get("email") as string,
                     projectType: formData.get("projectType") as string,

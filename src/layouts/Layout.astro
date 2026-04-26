@@ -11,10 +11,64 @@ const { title = "Shreshta SMG", description = "Welcome to shreshtasmg.in" } =
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content="Shreshta SMG" />
+    <meta
+      name="keywords"
+      content="Software Developer, Full-Stack Engineer, Web Development, Mobile Apps, API Development, UI/UX Design, Shreshta SMG, Jupiter Website"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={Astro.url} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL("/og-image.png", Astro.site)} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta
+      property="twitter:image"
+      content={new URL("/og-image.png", Astro.site)}
+    />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#f1665d" />
+
+    <!-- Fonts -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
     />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Shreshta SMG",
+        "url": "https://shreshtasmg.in",
+        "jobTitle": "Software Developer",
+        "knowsAbout": [
+          "Web Development",
+          "Mobile App Development",
+          "Full-Stack Engineering",
+          "UI/UX Design",
+          "API Backend"
+        ],
+        "description": "Software Developer creating modern, responsive, and scalable digital experiences."
+      }
+    </script>
+
+    <!-- Recaptcha -->
     <script
       is:inline
       src={`https://www.google.com/recaptcha/api.js?render=${import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY}`}
@@ -25,7 +79,7 @@ const { title = "Shreshta SMG", description = "Welcome to shreshtasmg.in" } =
     class="min-h-screen font-body bg-base-100 text-base-content overflow-x-hidden"
   >
     <div
-      class="pointer-events-none fixed inset-0 -z-10 opacity-80 mix-blend-soft-light"
+      class="pointer-events-none fixed inset-0 -z-10 opacity-30 mix-blend-soft-light"
       aria-hidden="true"
     >
       <div

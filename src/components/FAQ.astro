@@ -1,0 +1,43 @@
+---
+const faqs = [
+  {
+    question: "What is your typical engagement model?",
+    answer: "We work primarily on a project basis with fixed pricing for defined scopes. For ongoing needs, we offer monthly retainer packages for development and maintenance."
+  },
+  {
+    question: "How long does a typical project take?",
+    answer: "Timelines depend on complexity. A standard marketing site takes 2-4 weeks, while custom web applications or MVPs typically range from 8-12 weeks."
+  },
+  {
+    question: "Do you provide design services?",
+    answer: "Yes. We handle the full lifecycle from UI/UX design to frontend implementation and backend engineering. We believe design and code should be tightly integrated."
+  },
+  {
+    question: "What technologies do you use?",
+    answer: "We specialize in the modern JavaScript stack: React, Astro, Node.js, and TypeScript. We choose the best tool for the job, prioritizing performance and maintainability."
+  }
+];
+---
+
+<section id="faq" class="section-block section-muted reveal-section">
+  <div class="section-inner max-w-3xl">
+    <div class="text-center mb-12 reveal-item">
+      <h2 class="text-4xl font-bold mb-4">Common Questions</h2>
+      <p class="opacity-80">Clarifying how we work so you can move forward with confidence.</p>
+    </div>
+
+    <div class="join join-vertical w-full bg-base-100 border border-base-300 shadow-sm reveal-item">
+      {faqs.map((faq, index) => (
+        <div class="collapse collapse-plus join-item border-base-300 border-b last:border-b-0">
+          <input type="radio" name="faq-accordion" checked={index === 0 ? "checked" : undefined} /> 
+          <div class="collapse-title text-lg font-medium">
+            {faq.question}
+          </div>
+          <div class="collapse-content"> 
+            <p class="opacity-80 pb-4">{faq.answer}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
