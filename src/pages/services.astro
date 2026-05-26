@@ -1,0 +1,40 @@
+---
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import StoryMotionScript from "../components/StoryMotionScript.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Services | Shreshta SMG"
+  description="Outcome-focused full-stack development services for websites, web apps, APIs, and product UX."
+  canonicalPath="/services"
+>
+  <Navbar />
+  <section class="section-block px-4 story-chapter" data-chapter-color="oklch(96% 0.02 245)">
+    <div class="section-inner space-y-6">
+      <div class="cinematic-item">
+        <h1 class="font-display text-4xl">Services built for measurable business outcomes</h1>
+        <p class="max-w-3xl mt-3">We design and build digital products that improve conversion, reduce technical debt, and support long-term scale.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block px-4 pt-0 story-chapter" data-chapter-color="oklch(93% 0.03 230)">
+    <div class="section-inner grid gap-4 md:grid-cols-2">
+      <article class="card bg-base-100 border border-base-300 cinematic-item"><div class="card-body"><h2 class="card-title">Web Application Development</h2><p>Custom, secure, scalable web apps for internal tools, SaaS products, and operational workflows.</p></div></article>
+      <article class="card bg-base-100 border border-base-300 cinematic-item"><div class="card-body"><h2 class="card-title">UI/UX Implementation</h2><p>Design-system-driven, accessible interfaces that improve user confidence and completion rates.</p></div></article>
+      <article class="card bg-base-100 border border-base-300 cinematic-item"><div class="card-body"><h2 class="card-title">API and Backend Development</h2><p>Robust architecture, authentication, and data modeling designed for reliability and speed.</p></div></article>
+      <article class="card bg-base-100 border border-base-300 cinematic-item"><div class="card-body"><h2 class="card-title">Performance Optimization</h2><p>Core Web Vitals improvements, code refactors, and architectural fixes to speed up product delivery.</p></div></article>
+    </div>
+  </section>
+
+  <section class="section-block px-4 story-chapter" data-chapter-color="oklch(90% 0.04 210)">
+    <div class="section-inner cinematic-item">
+      <a href="/contact" class="btn btn-primary normal-case">Get a project estimate</a>
+    </div>
+  </section>
+
+  <Footer />
+  <StoryMotionScript />
+</Layout>

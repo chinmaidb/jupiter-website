@@ -1,0 +1,22 @@
+---
+import ContactUs from "../components/ContactUs.astro";
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Contact | Shreshta SMG"
+  description="Book a discovery call and get a clear project recommendation within 24 hours."
+  canonicalPath="/contact"
+>
+  <Navbar />
+  <section class="section-block px-4 pb-0">
+    <div class="section-inner">
+      <h1 class="font-display text-4xl">Tell us what you are building</h1>
+      <p class="mt-3 max-w-2xl">Share your goals, timeline, and scope. We will reply within 24 hours with recommended next steps.</p>
+    </div>
+  </section>
+  <ContactUs />
+  <Footer />
+</Layout>

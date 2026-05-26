@@ -1,0 +1,45 @@
+---
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import Layout from "../layouts/Layout.astro";
+
+const posts = [
+  {
+    title: "How to plan an MVP without overbuilding",
+    excerpt: "A practical framework to scope your MVP around user and business outcomes.",
+  },
+  {
+    title: "Improving Core Web Vitals on modern Astro sites",
+    excerpt: "Performance strategies that raise Lighthouse scores and reduce drop-off.",
+  },
+  {
+    title: "Design-to-development handoff that actually works",
+    excerpt: "How to keep design intent intact while shipping fast.",
+  },
+];
+---
+
+<Layout
+  title="Blog | Shreshta SMG"
+  description="Guides on product strategy, UI UX, performance, and full-stack delivery."
+  canonicalPath="/blog"
+>
+  <Navbar />
+  <section class="section-block px-4">
+    <div class="section-inner space-y-6">
+      <h1 class="font-display text-4xl">Insights and resources</h1>
+      <p class="max-w-3xl">Actionable articles on building digital products that convert, perform, and scale.</p>
+      <div class="grid gap-4 md:grid-cols-3">
+        {posts.map((post) => (
+          <article class="card bg-base-100 border border-base-300">
+            <div class="card-body">
+              <h2 class="card-title text-lg">{post.title}</h2>
+              <p class="text-sm">{post.excerpt}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <Footer />
+</Layout>

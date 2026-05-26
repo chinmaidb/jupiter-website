@@ -1,7 +1,23 @@
 ---
 import "../styles/global.css";
-const { title = "Shreshta SMG", description = "Welcome to shreshtasmg.in" } =
-  Astro.props;
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+  schemaType?: "Organization" | "WebPage" | "Article";
+}
+
+const {
+  title = "Shreshta SMG | Full-Stack Product Development",
+  description =
+    "Shreshta SMG builds high-performing websites and scalable web applications for startups and growth-stage teams.",
+  canonicalPath = "/",
+  schemaType = "WebPage",
+} = Astro.props as Props;
+
+const canonicalUrl = new URL(canonicalPath, Astro.site).toString();
+const ogImage = new URL("/og-image.png", Astro.site).toString();
 ---
 
 <!doctype html>
@@ -14,61 +30,57 @@ const { title = "Shreshta SMG", description = "Welcome to shreshtasmg.in" } =
     <meta name="author" content="Shreshta SMG" />
     <meta
       name="keywords"
-      content="Software Developer, Full-Stack Engineer, Web Development, Mobile Apps, API Development, UI/UX Design, Shreshta SMG, Jupiter Website"
+      content="full-stack development, web application development, UI UX implementation, API backend development, Astro development, React development"
     />
 
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href={Astro.url} />
-
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL("/og-image.png", Astro.site)} />
+    <meta property="og:image" content={ogImage} />
 
-    <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:url" content={canonicalUrl} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta
-      property="twitter:image"
-      content={new URL("/og-image.png", Astro.site)}
-    />
+    <meta property="twitter:image" content={ogImage} />
 
-    <!-- Theme Color -->
     <meta name="theme-color" content="#f1665d" />
 
-    <!-- Fonts -->
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
     />
 
-    <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Shreshta SMG",
-        "url": "https://shreshtasmg.in",
-        "jobTitle": "Software Developer",
-        "knowsAbout": [
-          "Web Development",
-          "Mobile App Development",
-          "Full-Stack Engineering",
-          "UI/UX Design",
-          "API Backend"
-        ],
-        "description": "Software Developer creating modern, responsive, and scalable digital experiences."
-      }
+      {JSON.stringify(
+        schemaType === "Organization"
+          ? {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Shreshta SMG",
+              url: "https://shreshtasmg.in",
+              email: "shreshtasmg@gmail.com",
+              telephone: "+91-9110821035",
+              sameAs: [
+                "https://www.linkedin.com/in/girisha-kv-b30b6719/",
+                "https://www.linkedin.com/in/chinmaidbharadwaj/",
+              ],
+              description,
+            }
+          : {
+              "@context": "https://schema.org",
+              "@type": schemaType,
+              name: title,
+              url: canonicalUrl,
+              description,
+            },
+      )}
     </script>
 
-    <!-- Recaptcha -->
     <script
       is:inline
       src={`https://www.google.com/recaptcha/api.js?render=${import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY}`}
@@ -76,19 +88,10 @@ const { title = "Shreshta SMG", description = "Welcome to shreshtasmg.in" } =
       defer></script>
   </head>
   <body
-    class="min-h-screen font-body bg-base-100 text-base-content overflow-x-hidden"
+    class="min-h-screen font-body bg-base-100 text-base-content overflow-x-hidden flex flex-col"
   >
-    <div
-      class="pointer-events-none fixed inset-0 -z-10 opacity-30 mix-blend-soft-light"
-      aria-hidden="true"
-    >
-      <div
-        class="h-full w-full bg-[radial-gradient(circle_at_top,oklch(80%_0.114_19.571)_0,transparent_55%),radial-gradient(circle_at_20%_70%,oklch(68%_0.162_75.834)_0,transparent_55%),radial-gradient(circle_at_80%_30%,oklch(58%_0.158_241.966)_0,transparent_55%)]"
-      >
-      </div>
-    </div>
-
-    <main class="relative">
+    <canvas id="painted-bg" class="painted-bg" aria-hidden="true"></canvas>
+    <main class="relative flex-1">
       <slot />
     </main>
   </body>

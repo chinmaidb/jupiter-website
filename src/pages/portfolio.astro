@@ -1,0 +1,37 @@
+---
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import StoryMotionScript from "../components/StoryMotionScript.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="Portfolio | Shreshta SMG"
+  description="Selected projects focused on conversion, product performance, and scalable engineering."
+  canonicalPath="/portfolio"
+>
+  <Navbar />
+  <section class="section-block px-4 story-chapter" data-chapter-color="oklch(96% 0.02 245)">
+    <div class="section-inner space-y-6 cinematic-item">
+      <h1 class="font-display text-4xl">Selected projects and case studies</h1>
+      <p class="max-w-3xl">Each engagement is built around business goals, delivery speed, and measurable improvement.</p>
+    </div>
+  </section>
+
+  <section class="section-block px-4 pt-0 story-chapter" data-chapter-color="oklch(93% 0.03 230)">
+    <div class="section-inner grid gap-4 md:grid-cols-3">
+      <article class="card bg-base-100 border border-base-300 cinematic-item"><div class="card-body"><h2 class="card-title">SaaS Analytics Platform</h2><p>Rebuilt dashboard UX and data-fetching layer to improve task completion and perceived speed.</p><p class="text-sm text-base-content/70">Stack: Astro, React, Node.js</p></div></article>
+      <article class="card bg-base-100 border border-base-300 cinematic-item"><div class="card-body"><h2 class="card-title">Conversion-Led Marketing Site</h2><p>Restructured IA, page copy, and CTA paths for higher lead intent and lower bounce rates.</p><p class="text-sm text-base-content/70">Stack: Astro, Tailwind, Netlify</p></div></article>
+      <article class="card bg-base-100 border border-base-300 cinematic-item"><div class="card-body"><h2 class="card-title">Internal Operations Portal</h2><p>Centralized workflows with role-based access and reporting to reduce manual overhead.</p><p class="text-sm text-base-content/70">Stack: React, API backend, SQL</p></div></article>
+    </div>
+  </section>
+
+  <section class="section-block px-4 story-chapter" data-chapter-color="oklch(90% 0.04 210)">
+    <div class="section-inner cinematic-item">
+      <a href="/contact" class="btn btn-primary normal-case">Discuss your project</a>
+    </div>
+  </section>
+
+  <Footer />
+  <StoryMotionScript />
+</Layout>

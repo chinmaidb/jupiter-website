@@ -1,0 +1,83 @@
+---
+import Footer from "../components/Footer.astro";
+import Navbar from "../components/Navbar.astro";
+import StoryMotionScript from "../components/StoryMotionScript.astro";
+import Layout from "../layouts/Layout.astro";
+
+const team = [
+  {
+    name: "Girish KV",
+    role: "Founder",
+    bio: "Focused on clean architecture, reliable delivery, and business-first product decisions.",
+    image: "https://i.pravatar.cc/300?u=Girish",
+    linkedin: "https://www.linkedin.com/in/girisha-kv-b30b6719/",
+  },
+  {
+    name: "Chinmai D",
+    role: "Co-Founder and CTO",
+    bio: "Leads product engineering with emphasis on UX quality, performance, and maintainable systems.",
+    image: "https://i.pravatar.cc/300?u=chinmai.bharadwaj@ymail.com",
+    linkedin: "https://www.linkedin.com/in/chinmaidbharadwaj/",
+    github: "https://github.com/shreshtadev",
+  },
+];
+---
+
+<Layout
+  title="About | Shreshta SMG"
+  description="A product-focused team combining strategy, UX, and full-stack engineering."
+  canonicalPath="/about"
+  schemaType="Organization"
+>
+  <Navbar />
+  <section class="section-block px-4 story-chapter" data-chapter-color="oklch(96% 0.02 245)">
+    <div class="section-inner space-y-6">
+      <div class="cinematic-item">
+        <h1 class="font-display text-4xl">About Shreshta SMG</h1>
+        <p class="max-w-3xl mt-3">We are a product-minded development team helping startups and growing businesses turn ideas into reliable digital products.</p>
+      </div>
+      <div class="grid gap-4 md:grid-cols-3">
+        <div class="rounded-box border border-base-300 bg-base-100 p-4 cinematic-item"><h2 class="font-semibold">Discover</h2><p class="text-sm">We align on business goals, users, and constraints before writing code.</p></div>
+        <div class="rounded-box border border-base-300 bg-base-100 p-4 cinematic-item"><h2 class="font-semibold">Design</h2><p class="text-sm">We shape intuitive interfaces and clear journeys that support conversion.</p></div>
+        <div class="rounded-box border border-base-300 bg-base-100 p-4 cinematic-item"><h2 class="font-semibold">Deliver</h2><p class="text-sm">We ship maintainable systems with transparent milestones and ownership.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block px-4 pt-0 story-chapter" data-chapter-color="oklch(93% 0.03 230)">
+    <div class="section-inner space-y-6">
+      <div class="cinematic-item">
+        <h2 class="font-display text-3xl">Our Team</h2>
+        <p class="max-w-3xl text-sm md:text-base mt-2">A focused team combining strategy, design, and engineering to deliver high-impact products.</p>
+      </div>
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {team.map((member) => (
+          <article class="card bg-base-100 border border-base-300 shadow-sm cinematic-item">
+            <div class="card-body">
+              <div class="flex items-center gap-4">
+                <div class="avatar">
+                  <div class="w-16 rounded-full ring ring-primary ring-offset-2 ring-offset-base-100">
+                    <img src={member.image} alt={member.name} loading="lazy" />
+                  </div>
+                </div>
+                <div>
+                  <h3 class="card-title text-lg">{member.name}</h3>
+                  <p class="text-sm text-base-content/70">{member.role}</p>
+                </div>
+              </div>
+              <p class="text-sm">{member.bio}</p>
+              <div class="card-actions justify-start">
+                <a href={member.linkedin} target="_blank" rel="noreferrer" class="btn btn-ghost btn-sm" aria-label={`LinkedIn profile of ${member.name}`}>LinkedIn</a>
+                {member.github && (
+                  <a href={member.github} target="_blank" rel="noreferrer" class="btn btn-ghost btn-sm" aria-label={`GitHub profile of ${member.name}`}>GitHub</a>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+  <Footer />
+  <StoryMotionScript />
+</Layout>
