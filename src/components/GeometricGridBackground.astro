@@ -1,0 +1,28 @@
+---
+const patternId = `geo-grid-${Math.random().toString(36).slice(2, 10)}`;
+---
+
+<div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+  <svg class="h-full w-full" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id={patternId} width="52" height="52" patternUnits="userSpaceOnUse">
+        <path d="M 52 0 L 0 0 0 52" fill="none" stroke="rgba(148,163,184,0.18)" stroke-width="1" />
+      </pattern>
+      <linearGradient id={`${patternId}-overlay`} x1="0" x2="1" y1="0" y2="1">
+        <stop offset="0%" stop-color="rgba(37,99,235,0.18)" />
+        <stop offset="100%" stop-color="rgba(9,10,15,0)" />
+      </linearGradient>
+    </defs>
+    <rect x="0" y="0" width="1200" height="800" fill={`url(#${patternId})`} />
+    <rect x="0" y="0" width="1200" height="800" fill={`url(#${patternId}-overlay)`} />
+    <g fill="none" stroke="rgba(148,163,184,0.14)" stroke-width="1">
+      <path d="M 0 200 L 1200 200" />
+      <path d="M 0 400 L 1200 400" />
+      <path d="M 0 600 L 1200 600" />
+      <path d="M 200 0 L 200 800" />
+      <path d="M 600 0 L 600 800" />
+      <path d="M 1000 0 L 1000 800" />
+    </g>
+    <path d="M 0 800 L 500 300 L 1200 800" fill="none" stroke="rgba(163,230,53,0.2)" stroke-width="1.5" />
+  </svg>
+</div>

@@ -1,12 +1,6 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@components/*": ["src/components/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@utils/*": ["src/utils/*"]
-    },
     // Enable Node-style module resolution for modern TS/Node compatibility
     "moduleResolution": "bundler",
     "module": "esnext",

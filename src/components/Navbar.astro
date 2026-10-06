@@ -1,61 +1,42 @@
-<header
-  class="sticky top-0 z-40 border-b border-base-300/70 bg-base-100/80 backdrop-blur-xl"
->
-  <div class="navbar mx-auto max-w-6xl px-4">
-    <div class="navbar-start gap-2">
-      <a
-        href="/"
-        class="inline-flex items-center gap-2 font-display text-lg md:text-xl tracking-tight lowercase"
-      >
-        <span class="relative inline-flex h-5 w-5 items-center justify-center">
-          <span
-            class="absolute inline-block h-5 w-5 rounded-full bg-primary/30 blur-[6px]"
-          ></span>
-          <span
-            class="relative inline-block h-2.5 w-2.5 rounded-full bg-primary"
-          ></span>
+<header class="sticky top-0 z-40 border-b border-zinc-800/90 bg-[#090A0F]/80 backdrop-blur-xl">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+    <div class="flex items-center gap-3">
+      <a href="/" class="group inline-flex items-center gap-3">
+        <span class="relative inline-flex h-8 w-8 items-center justify-center border border-zinc-700 bg-[#0f172a] shadow-[4px_4px_0px_0px_rgba(37,99,235,1)]">
+          <span class="absolute inset-1 border border-cyan-400/40"></span>
+          <span class="h-2.5 w-2.5 bg-[#a3e635] shadow-[0_0_12px_rgba(163,230,53,0.9)]"></span>
         </span>
-        <span class="font-semibold">shreshta</span>
-        <span
-          class="text-xs font-semibold tracking-[0.3em] uppercase text-base-content/60 hidden sm:inline"
-        >
-          smg
-        </span>
+        <span class="font-display text-lg font-semibold tracking-tight text-white md:text-xl">shreshta</span>
+        <span class="hidden font-mono text-[0.58rem] uppercase tracking-[0.35em] text-zinc-400 sm:inline">smg</span>
       </a>
     </div>
 
-    <div class="navbar-center hidden md:flex">
-      <nav
-        class="rounded-full border border-base-300/80 bg-base-100/90 px-2 py-1 shadow-sm"
-        aria-label="Primary"
-      >
-        <ul class="flex items-center gap-1 text-xs">
-          <li><a href="/services" class="btn btn-ghost btn-xs rounded-full px-3">Services</a></li>
-          <li><a href="/portfolio" class="btn btn-ghost btn-xs rounded-full px-3">Portfolio</a></li>
-          <li><a href="/about" class="btn btn-ghost btn-xs rounded-full px-3">About</a></li>
-          <li><a href="/blog" class="btn btn-ghost btn-xs rounded-full px-3">Blog</a></li>
-          <li><a href="/contact" class="btn btn-ghost btn-xs rounded-full px-3">Contact</a></li>
+    <div class="hidden items-center md:flex">
+      <nav class="border border-zinc-800 bg-[#0b1020]/90 p-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]" aria-label="Primary">
+        <ul class="flex items-center gap-1 text-[0.62rem] font-mono uppercase tracking-[0.18em] text-zinc-300">
+          <li><a href="/services" class="inline-block border border-transparent px-3 py-2 transition-colors hover:border-zinc-700 hover:text-white">Services</a></li>
+          <li><a href="/portfolio" class="inline-block border border-transparent px-3 py-2 transition-colors hover:border-zinc-700 hover:text-white">Portfolio</a></li>
+          <li><a href="/about" class="inline-block border border-transparent px-3 py-2 transition-colors hover:border-zinc-700 hover:text-white">About</a></li>
+          <li><a href="/blog" class="inline-block border border-transparent px-3 py-2 transition-colors hover:border-zinc-700 hover:text-white">Blog</a></li>
+          <li><a href="/contact" class="inline-block border border-transparent px-3 py-2 transition-colors hover:border-zinc-700 hover:text-white">Contact</a></li>
         </ul>
       </nav>
     </div>
 
-    <div class="navbar-end gap-2">
-      <a href="/contact" class="btn btn-primary btn-sm md:btn-md normal-case">Book a discovery call</a>
+    <div class="flex items-center gap-2">
+      <a href="/contact" class="geo-button hidden sm:inline-flex">Book a call</a>
       <div class="dropdown dropdown-end md:hidden">
-        <label tabindex="0" class="btn btn-ghost btn-square" aria-label="Open navigation menu">
+        <label tabindex="0" class="flex h-11 w-11 items-center justify-center border border-zinc-700 bg-[#0f172a] text-zinc-100 shadow-[4px_4px_0px_0px_rgba(37,99,235,1)]" aria-label="Open navigation menu">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </label>
-        <ul
-          tabindex="0"
-          class="menu menu-sm dropdown-content mt-3 z-50 w-56 rounded-box border border-base-300 bg-base-100/95 p-2 shadow-xl"
-        >
-          <li><a href="/services">Services</a></li>
-          <li><a href="/portfolio">Portfolio</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/blog">Blog</a></li>
-          <li><a href="/contact" class="font-semibold text-primary">Book a call</a></li>
+        <ul tabindex="0" class="menu menu-sm dropdown-content z-[60] mt-3 w-56 border border-zinc-700 bg-[#0b1020] p-2 shadow-[6px_6px_0px_0px_rgba(37,99,235,1)]">
+          <li><a href="/services" class="font-mono text-[0.7rem] uppercase tracking-[0.18em]">Services</a></li>
+          <li><a href="/portfolio" class="font-mono text-[0.7rem] uppercase tracking-[0.18em]">Portfolio</a></li>
+          <li><a href="/about" class="font-mono text-[0.7rem] uppercase tracking-[0.18em]">About</a></li>
+          <li><a href="/blog" class="font-mono text-[0.7rem] uppercase tracking-[0.18em]">Blog</a></li>
+          <li><a href="/contact" class="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-[#a3e635]">Book a call</a></li>
         </ul>
       </div>
     </div>

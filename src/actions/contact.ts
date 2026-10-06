@@ -1,7 +1,7 @@
-import { defineAction } from "astro:actions";
-import { ContactUs, db } from "astro:db";
+// src/actions/contact.ts
+import { defineAction, ActionError } from "astro:actions";
 import { z } from "astro/zod";
-
+import { turso, initContactsTable } from "../utils/turso";
 
 export const sendContact = defineAction({
   accept: "json",
@@ -14,64 +14,85 @@ export const sendContact = defineAction({
   }),
   handler: async (input) => {
     const { name, email, projectType, message, recaptchaToken } = input;
+
     if (!recaptchaToken) {
-      return new Response("reCAPTCHA token missing", { status: 400 });
+      throw new ActionError({
+        code: "BAD_REQUEST",
+        message: "reCAPTCHA token missing",
+      });
     }
 
     const secretKey = import.meta.env.RECAPTCHA_SECRET_KEY;
     if (!secretKey) {
       console.error("Missing RECAPTCHA_SECRET_KEY env var");
-      return new Response("Server misconfigured", { status: 500 });
+      throw new ActionError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Server configuration error",
+      });
     }
 
     // Verify with Google reCAPTCHA v3
     const verifyUrl = "https://www.google.com/recaptcha/api/siteverify";
-
     const params = new URLSearchParams();
     params.append("secret", secretKey);
     params.append("response", recaptchaToken);
-    // optional: params.append("remoteip", request.headers.get("x-forwarded-for") ?? "");
 
-    const verifyResponse = await fetch(verifyUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: params,
-    });
-
-    const verifyData = (await verifyResponse.json()) as {
+    let verifyData: {
       success: boolean;
       score?: number;
       action?: string;
-      challenge_ts?: string;
-      hostname?: string;
-      "error-codes"?: string[];
     };
 
-    // Tune this threshold if needed (0.5 is a common starting point)
-    const MIN_SCORE = 0.5;
+    try {
+      const verifyResponse = await fetch(verifyUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: params,
+      });
+      verifyData = await verifyResponse.json();
+    } catch (err) {
+      console.error("reCAPTCHA network error:", err);
+      throw new ActionError({
+        code: "BAD_GATEWAY",
+        message: "Failed to verify reCAPTCHA",
+      });
+    }
 
+    const MIN_SCORE = 0.5;
     if (
       !verifyData.success ||
       (typeof verifyData.score === "number" && verifyData.score < MIN_SCORE) ||
       (verifyData.action && verifyData.action !== "contact_form")
     ) {
       console.warn("reCAPTCHA v3 verification failed", verifyData);
-      return { message: "reCAPTCHA validation failed", status: 400 };
+      throw new ActionError({
+        code: "BAD_REQUEST",
+        message: "reCAPTCHA validation failed",
+      });
     }
-    const contactUsData = {
-      fullName: name,
-      emailId: email,
-      projectType: projectType,
-      projectDetails: message,
-    };
 
-    const [record] = await db.insert(ContactUs).values(contactUsData).returning();
+    // Insert into Turso DB
+    try {
+      await initContactsTable();
+
+      await turso.execute({
+        sql: `
+          INSERT INTO contacts (name, email, project_type, message)
+          VALUES (?, ?, ?, ?)
+        `,
+        args: [name, email, projectType, message],
+      });
+    } catch (dbError) {
+      console.error("Turso database insertion error:", dbError);
+      throw new ActionError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Failed to save contact information",
+      });
+    }
+
     return {
-      message: "Submitted successfully",
-      emailId: record.id,
-      status: 200,
+      success: true,
+      message: "Contact saved successfully",
     };
   },
 });

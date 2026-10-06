@@ -1,19 +1,69 @@
 @import "tailwindcss";
+
 @plugin 'daisyui' {
   themes: retro;
 }
 
-html { scroll-behavior: smooth; }
-section[id] { scroll-margin-top: 96px; }
+@theme {
+  --font-sans: "Space Grotesk", "Inter", "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Inter", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", "Consolas", monospace;
 
-.section-block { position: relative; padding-block: 4.5rem; }
-@media (min-width: 768px) { .section-block { padding-block: 5.5rem; } }
+  --color-obsidian: #090a0f;
+  --color-obsidian-2: #0f172a;
+  --color-panel: #111827;
+  --color-gridline: rgba(148, 163, 184, 0.2);
+  --color-cobalt: #2563eb;
+  --color-lime: #a3e635;
+  --color-slate-ink: #dfe7f3;
+}
 
-.section-inner { max-width: 72rem; margin-inline: auto; padding-inline: 1.25rem; }
+:root {
+  color-scheme: dark;
+  background-color: #090a0f;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section[id] {
+  scroll-margin-top: 96px;
+}
 
 body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(37, 99, 235, 0.14), transparent 25%),
+    linear-gradient(180deg, #090a0f 0%, #090a0f 100%);
+  color: rgb(239 246 255);
+  font-family: var(--font-sans);
   text-rendering: optimizeLegibility;
   transition: background-color 0.5s ease;
+}
+
+::selection {
+  background: rgba(163, 230, 53, 0.35);
+  color: white;
+}
+
+.section-block {
+  position: relative;
+  padding-block: 4.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-block {
+    padding-block: 5.5rem;
+  }
+}
+
+.section-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
 }
 
 .painted-bg {
@@ -30,8 +80,112 @@ body {
 .mockup-window,
 .stat,
 .badge,
-.btn {
+.btn,
+.geo-panel,
+.geo-card,
+.geo-button,
+.geo-chip {
   backdrop-filter: blur(3px);
+}
+
+@layer components {
+  .geo-panel {
+    @apply relative overflow-hidden border border-zinc-800 bg-[#0d1117]/90 shadow-[4px_4px_0px_0px_rgba(15,23,42,1)] rounded-none;
+  }
+
+  .geo-card {
+    @apply relative overflow-hidden border border-zinc-800 bg-[#101827]/90 p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 ease-out rounded-none;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+  }
+
+  .geo-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 0 rgba(37, 99, 235, 1);
+  }
+
+  .geo-chip {
+    @apply inline-flex items-center gap-2 border border-zinc-700 bg-obsidian-2 px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.26em] text-zinc-200;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+  }
+
+  .geo-button {
+    @apply inline-flex items-center justify-center border border-zinc-800 bg-cobalt px-6 py-3 font-mono text-[0.68rem] font-medium uppercase tracking-[0.22em] text-white transition-transform duration-200 ease-out shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] no-underline rounded-none;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+
+  .geo-button:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 1);
+  }
+
+  .geo-button.secondary {
+    @apply border-zinc-700 bg-transparent text-zinc-100;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center border border-zinc-800 bg-[#101827] px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-zinc-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-transform duration-200 ease-out no-underline rounded-none;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  }
+
+  .btn:hover {
+    transform: translate(-2px, -2px);
+  }
+
+  .btn-primary {
+    @apply border-zinc-800 bg-cobalt text-white;
+  }
+
+  .btn-ghost {
+    @apply border-zinc-700 bg-transparent text-zinc-100;
+  }
+
+  .badge {
+    @apply inline-flex items-center border border-zinc-700 bg-[#0b1020] px-3 py-1.5 font-mono text-[0.58rem] uppercase tracking-[0.22em] text-zinc-200 rounded-none;
+  }
+
+  .card {
+    @apply relative overflow-hidden border border-zinc-800 bg-[#0d1117]/90 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-none;
+  }
+
+  .card-body {
+    @apply p-5;
+  }
+
+  .rounded-box,
+  .rounded-3xl,
+  .rounded-full {
+    border-radius: 0 !important;
+  }
+
+  .geo-grid-surface {
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+      radial-gradient(
+        circle at center,
+        rgba(37, 99, 235, 0.18),
+        transparent 55%
+      );
+    background-size:
+      32px 32px,
+      32px 32px,
+      100% 100%;
+    background-position: center;
+  }
+
+  .geo-mono {
+    @apply font-mono uppercase tracking-[0.2em];
+  }
+}
+
+@keyframes geoPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(37, 99, 235, 0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

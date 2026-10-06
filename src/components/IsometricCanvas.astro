@@ -1,0 +1,182 @@
+<div data-isometric-canvas class="relative h-105 w-full overflow-hidden border border-zinc-800 bg-zinc-950 shadow-[8px_8px_0px_0px_rgba(15,23,42,1)]">
+  <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(37,99,235,0.18),transparent_45%)]"></div>
+  <canvas class="absolute inset-0 h-full w-full"></canvas>
+  <div class="pointer-events-none absolute inset-x-4 top-4 flex items-center justify-between font-mono text-[0.58rem] uppercase tracking-[0.25em] text-zinc-300">
+    <span>// [01/3D-GRID]</span>
+    <span class="text-lime-400">LIVE</span>
+  </div>
+</div>
+
+<script>
+  import * as THREE from 'three';
+
+  // Query all canvas containers on the page
+  const containers = document.querySelectorAll<HTMLElement>('[data-isometric-canvas]');
+
+  containers.forEach((root) => {
+    // Prevent double initialization during view transitions / hot-reloads
+    if (root.dataset.initialized) return;
+    root.dataset.initialized = 'true';
+
+    const canvas = root.querySelector('canvas');
+    if (!canvas) return;
+
+    try {
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      const scene = new THREE.Scene();
+
+      const frustumSize = 10;
+      const camera = new THREE.OrthographicCamera(
+        -frustumSize / 2,
+        frustumSize / 2,
+        frustumSize / 2,
+        -frustumSize / 2,
+        0.1,
+        100
+      );
+      camera.position.set(10, 10, 10);
+      camera.lookAt(0, 0, 0);
+
+      const geoGroup = new THREE.Group();
+      scene.add(geoGroup);
+
+      const glow = new THREE.PointLight(0x2563eb, 18, 50, 2.5);
+      glow.position.set(2, 4, 5);
+      scene.add(glow);
+
+      const fill = new THREE.PointLight(0xa3e635, 12, 40, 2);
+      fill.position.set(-4, -2, 4);
+      scene.add(fill);
+
+      const grid = new THREE.GridHelper(16, 16, 0x2563eb, 0x334155);
+      grid.position.y = -2.1;
+      grid.rotation.x = Math.PI / 2;
+      scene.add(grid);
+
+      const palette = [0x2563eb, 0xa3e635, 0xdfe7f3, 0x111827];
+      const blocks: THREE.Mesh[] = [];
+
+      for (let x = -2; x <= 2; x += 1) {
+        for (let z = -2; z <= 2; z += 1) {
+          const height = (Math.abs(x) + Math.abs(z) + 1) * 0.45;
+          const geometry = new THREE.BoxGeometry(1.16, height, 1.16);
+          const material = new THREE.MeshStandardMaterial({
+            color: palette[(x + z + 4) % palette.length],
+            emissive: palette[(x + z + 4) % palette.length],
+            emissiveIntensity: 0.15,
+            roughness: 0.7,
+            metalness: 0.2,
+            flatShading: true,
+          });
+
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.position.set(x * 1.5, height / 2 - 1.2, z * 1.5);
+
+          const edges = new THREE.LineSegments(
+            new THREE.EdgesGeometry(geometry),
+            new THREE.LineBasicMaterial({ color: 0xf8fafc, transparent: true, opacity: 0.9 })
+          );
+          mesh.add(edges);
+          geoGroup.add(mesh);
+          blocks.push(mesh);
+        }
+      }
+
+      const target = { yaw: -0.72, pitch: 0.66 };
+      const current = { yaw: -0.72, pitch: 0.66 };
+      const pointer = { x: 0, y: 0, down: false, lastX: 0, lastY: 0 };
+
+      const updatePointer = (event: PointerEvent) => {
+        const rect = root.getBoundingClientRect();
+        pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        pointer.y = -(((event.clientY - rect.top) / rect.height) * 2 - 1);
+      };
+
+      root.addEventListener('pointerdown', (event: PointerEvent) => {
+        pointer.down = true;
+        pointer.lastX = event.clientX;
+        pointer.lastY = event.clientY;
+        updatePointer(event);
+      });
+
+      root.addEventListener('pointermove', (event: PointerEvent) => {
+        if (!pointer.down) {
+          updatePointer(event);
+          return;
+        }
+
+        const dx = event.clientX - pointer.lastX;
+        const dy = event.clientY - pointer.lastY;
+        pointer.lastX = event.clientX;
+        pointer.lastY = event.clientY;
+        target.yaw -= dx * 0.008;
+        target.pitch = THREE.MathUtils.clamp(target.pitch - dy * 0.006, 0.18, 1.1);
+      });
+
+      window.addEventListener('pointerup', () => {
+        pointer.down = false;
+      });
+
+      const raycaster = new THREE.Raycaster();
+      let hoveredBlock: THREE.Mesh | null = null;
+
+      root.addEventListener('pointerleave', () => {
+        if (hoveredBlock) {
+          hoveredBlock.scale.setScalar(1);
+          hoveredBlock = null;
+        }
+        pointer.down = false;
+      });
+
+      const resize = () => {
+        const rect = root.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
+
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        renderer.setPixelRatio(dpr);
+        renderer.setSize(rect.width, rect.height, false);
+
+        const aspect = rect.width / rect.height;
+        camera.left = (-frustumSize * aspect) / 2;
+        camera.right = (frustumSize * aspect) / 2;
+        camera.top = frustumSize / 2;
+        camera.bottom = -frustumSize / 2;
+        camera.updateProjectionMatrix();
+      };
+
+      const resizeObserver = new ResizeObserver(resize);
+      resizeObserver.observe(root);
+      resize();
+
+      const renderFrame = () => {
+        if (!pointer.down) {
+          target.yaw += 0.004;
+        }
+
+        current.yaw += (target.yaw - current.yaw) * 0.08;
+        current.pitch += (target.pitch - current.pitch) * 0.08;
+        geoGroup.rotation.y = current.yaw;
+        geoGroup.rotation.x = current.pitch;
+
+        raycaster.setFromCamera(pointer, camera);
+
+        // Raycast only on block meshes directly (recursive: false avoids edge wireframes)
+        const intersects = raycaster.intersectObjects(blocks, false);
+        const nextHover = (intersects[0]?.object as THREE.Mesh) || null;
+
+        if (nextHover !== hoveredBlock) {
+          if (hoveredBlock) hoveredBlock.scale.setScalar(1);
+          if (nextHover) nextHover.scale.setScalar(1.08);
+          hoveredBlock = nextHover;
+        }
+
+        renderer.render(scene, camera);
+        requestAnimationFrame(renderFrame);
+      };
+
+      requestAnimationFrame(renderFrame);
+    } catch (error) {
+      console.warn('IsometricCanvas failed to initialize:', error);
+    }
+  });
+</script>
